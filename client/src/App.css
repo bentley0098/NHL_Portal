@@ -1,6 +1,7 @@
 .App {
   text-align: center;
-  background-color: #CEEAF7;
+  
+  height:100vh;
 }
 
 html{

@@ -3,15 +3,15 @@ import './components.css'
 
 function Footer() {
   return (
-    <div className="footer">
-      <footer class="py-3 grid-bg-colour fixed-bottom">
+    
+      <footer class="grid-bg-colour fixed-bottom" style={{paddingTop: 10}}>
         <div class="container">
           <p class="m-0 text-center text-white">
-            Copyright &copy; HQ Software 2021, v0.01
+            Copyright &copy; HQ Software 2021, v0.02
           </p>
         </div>
       </footer>
-    </div>
+    
   );
 }
 

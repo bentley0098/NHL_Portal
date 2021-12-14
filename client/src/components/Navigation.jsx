@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { Link, withRouter } from "react-router-dom";
 
 
@@ -16,13 +16,6 @@ function Navigation(props) {
     window.location.reload(false);
   }
 
-  // -- ALERTS --//
-
-  const [ count, setCount ] = useState(1);
-  const timerId = setInterval(() => {
-    //console.log('Check for ALERTS here');
-    
-  }, 60000);
 
   return (
     <div className="navigation">

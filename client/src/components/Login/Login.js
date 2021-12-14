@@ -58,7 +58,7 @@ export default function Login({ setToken }) {
           <Form.Label>User:</Form.Label>
           <Form.Control type="email" placeholder="Enter username" onChange={e => setUserName(e.target.value)}/>
         </Form.Group>
-        <Form.Group className="mb-3" constrolId="passwordInput">
+        <Form.Group className="mb-3" controlId="passwordInput">
           <Form.Label>Password:</Form.Label>
           <Form.Control type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
         </Form.Group>

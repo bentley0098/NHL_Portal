@@ -1,0 +1,45 @@
+.stock-container{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height:90vh;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.grid-container{
+    display:flex;
+    flex:1;
+    flex-direction: row;
+    width:100vw;
+    justify-content: space-around;
+    
+}
+
+body{
+    height: 100vh;
+}
+
+.stock-grid{
+    flex-grow: 5;
+}
+
+.location-grid{
+    flex-grow: 3;
+}
+
+.filter {
+    height: 4vh;
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+    margin-bottom:0px;
+    
+}
+
+.text-input {
+    width: 50%;
+    
+}

@@ -5,49 +5,38 @@ import '@inovua/reactdatagrid-community/base.css'
 import '@inovua/reactdatagrid-community/index.css'
 import '@inovua/reactdatagrid-community/theme/default-dark.css'
 
-//Bootstrap Used for buttons, modals and styling
-import Button from 'react-bootstrap/Button'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import Modal from 'react-bootstrap/Modal'
-import Form from 'react-bootstrap/Form'
-import Tabs from 'react-bootstrap/Tabs'
-import Tab from 'react-bootstrap/Tab'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
-
-//React-DatePicker used for date inputs
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import moment from 'moment'
-
 // Function to export grid to excel
 import {LoadDataSource} from './LoadDataSource'
 
+import './stock.css'
+
+import Form from 'react-bootstrap/Form'
 
 
+const LoadLocations = (selected) => {
+  return fetch('/returnLocations/' + selected)
+    .then(data => data.json())
+} 
 
 //Overall Tasks function that handles the 'Tasks' page
 function Stock() {
   
   //----- GET CURRENT USER -----//
-  const tokenString = sessionStorage.getItem('token');
-  const userToken = JSON.parse(tokenString);
+  //const tokenString = sessionStorage.getItem('token');
+  //const userToken = JSON.parse(tokenString);
   //const Username = userToken.username;
-  const UserID = userToken.userId;
+  //const UserID = userToken.userId;
 
   const [dataSource, setDataSource] = useState([]);
+  const [locationData, setLocationData] = useState([]);
+  const [searchString, setSearchString] = useState("");
   useEffect(() =>{
-    setDataSource(LoadDataSource().data);
-
-  }, [])
+    setDataSource(LoadDataSource(searchString).data);
+  }, [searchString])
 
   const gridStyle = {
-    height: '80vh', 
+    height: '83vh', 
     margin: 10
-    //border: '1px solid black',
-    //boxShadow:  '0 0 8px 2px rgba(0, 0, 0)'
   }
 
   const columns = [
@@ -58,22 +47,59 @@ function Stock() {
 
   const theme = 'default-dark';
 
+  //const [selected, setSelected] = useState(null);
+
+  const onSelectionChange = useCallback(({ selected }) => {
+    //setSelected(selected);
+    setLocationData(LoadLocations(selected));
+  }, [])
+
+  const locationColumns = [
+    {name:'Location', header:'Location', type: 'string', defaultFlex: 1},
+    {name:'BatchID', header:'Batch', type: 'string', defaultFlex: 1},
+    {name:'Expiry', header:'Expiry', type: 'string', defaultFlex: 1},
+    {name:'Qty', header:'Quantity', type: 'number', defaultFlex: 1}
+  ]
+
   
   return(
     <>
-      <div className="filter">
-        test
+      <div className="stock-container">
+        <div className="filter">
+          
+            <Form.Control 
+              className="text-input" 
+              size="sm" 
+              type="text" 
+              placeholder="Search..." 
+              value={searchString}
+              onChange={e=> setSearchString(e.target.value)}
+            />
+          
+        </div>
+        <div className="grid-container">
+          <div className="stock-grid">
+            <ReactDataGrid
+            idProperty="Product"
+            columns={columns}
+            dataSource={dataSource}
+            style={gridStyle}
+            theme={theme}
+            enableSelection={true}
+            onSelectionChange={onSelectionChange}
+            	/>
+          </div>
+          <div className="location-grid">
+            <ReactDataGrid
+              idProperty="Location"
+              columns={locationColumns}
+              dataSource={locationData}
+              style={gridStyle}
+            />
+          </div>
+        </div>
       </div>
-      <ReactDataGrid
-        idProperty="Task"
-        columns={columns}
-        dataSource={dataSource}
-        style={gridStyle}
-        theme={theme}
-      />
-      <div className="location-grid">
-        test
-      </div>
+      
     </>       
     
   )

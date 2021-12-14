@@ -1,4 +1,4 @@
-export function LoadDataSource (user, priority, showingClosed, filterCustCode, department) {
+export function LoadDataSource (searchString) {
 
     //-----LOAD TASKS FOR THE GRID -----//
     //const [dataSource, setDataSource] = useState([]);
@@ -7,14 +7,16 @@ export function LoadDataSource (user, priority, showingClosed, filterCustCode, d
     let dataSource = []
     let taskAmount = 0;
 
-    const filterUser = user;
-    const filterPriority = priority;
-    const isShowClosed = showingClosed;
-    const filterCustomer = filterCustCode;
-    const departmentCode = department;
+    const SearchString = searchString;
     
-      const newDataSource = (filterUser, filterPriority, isShowClosed, filterCustomer, departmentCode) =>{
-        return fetch('/returnStock').then(response => {
+    
+      const newDataSource = (SearchString) =>{
+        
+        let string = SearchString
+        if(string==='') {
+          string = 'EMPTY_SEARCH_STRING'
+        }
+        return fetch('/returnStock/'+ string).then(response => {
 
           return response.json().then(data => {
             taskAmount = data.length;
@@ -22,7 +24,7 @@ export function LoadDataSource (user, priority, showingClosed, filterCustCode, d
           })
         });
       }
-      dataSource = newDataSource(filterUser, filterPriority, isShowClosed, filterCustomer, departmentCode);
+      dataSource = newDataSource(SearchString);
     
     //----------//
 
