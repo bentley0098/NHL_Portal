@@ -4,10 +4,10 @@ import './components.css'
 function Footer() {
   return (
     
-      <footer class="grid-bg-colour fixed-bottom" style={{paddingTop: 10}}>
-        <div class="container">
-          <p class="m-0 text-center text-white">
-            Copyright &copy; HQ Software 2021, v0.02
+      <footer className="grid-bg-colour fixed-bottom" style={{paddingTop: 10}}>
+        <div className="container">
+          <p className="m-0 text-center text-white">
+            Copyright &copy; HQ Software 2021, v0.03
           </p>
         </div>
       </footer>

@@ -46,13 +46,15 @@ export default function Login({ setToken }) {
     
   }
   
+  // Use Below to render logo conditionaly based on the current domain  -  eg: nhl.hqsoftware.com will render nhl.ico
+  //const domain= window.location.hostname;
   return(
     <>
     
     
     <div className="login-logo"><img src={HQicon} alt="logo" /></div>
     <div className="login-wrapper">
-      <h2>HQ Business - Log In</h2>
+      <h2>WMS Portal - Log In</h2>
       <Form>
         <Form.Group className="mb-3" controlId="emailInput">
           <Form.Label>User:</Form.Label>

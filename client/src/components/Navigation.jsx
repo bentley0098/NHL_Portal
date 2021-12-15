@@ -22,7 +22,7 @@ function Navigation(props) {
       <nav class="navbar navbar-expand navbar-dark grid-bg-colour">
         <div class="container">
           <Link class="navbar-brand" to="/">
-            {Username}'s WMS Portal
+            {Username} - WMS Portal
           </Link>
           
           
