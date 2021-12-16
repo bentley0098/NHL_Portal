@@ -92,7 +92,10 @@ function Stock() {
               type="text" 
               placeholder="Search..." 
               value={searchString}
-              onChange={e=> setSearchString(e.target.value)}
+              onChange={e=> {
+                setSearchString(e.target.value);
+                setLocationData([]);
+              }}
             />
           </div>
             <div className="stock_exports">
