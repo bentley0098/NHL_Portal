@@ -23,9 +23,8 @@ const LoadLocations = (selected) => {
     .then(data => data.json())
 } 
 
-//Overall Tasks function that handles the 'Tasks' page
+// Stock Page function
 function Stock() {
-  
   //----- GET CURRENT USER -----//
   //const tokenString = sessionStorage.getItem('token');
   //const userToken = JSON.parse(tokenString);
@@ -35,50 +34,50 @@ function Stock() {
   const [dataSource, setDataSource] = useState([]);
   const [locationData, setLocationData] = useState([]);
   const [searchString, setSearchString] = useState("");
+  
+  // Sets datasource on lpoad and when searchString changes
   useEffect(() =>{
     setDataSource(LoadDataSource(searchString).data);
   }, [searchString])
 
+  // Styles and setup for grids
   const gridStyle = {
     height: '83vh', 
     margin: 10
   }
-
   const columns = [
     {name:'Product', header:'Product', type: 'string', defaultFlex: 0},
     {name:'Description', header:'Description', type: 'string', defaultFlex: 1},
     {name:'Quantity', header:'Total', type: 'number', defaultFlex: 0, textAlign: 'end'}
   ]
-
   const theme = 'default-dark';
+  const locationColumns = [
+      {name:'Location', header:'Location', type: 'string', defaultFlex: 1},
+      {name:'BatchID', header:'Batch', type: 'string', defaultFlex: 1},
+      {name:'Expiry', header:'Expiry', type: 'string', defaultFlex: 1},
+      {name:'Qty', header:'Quantity', type: 'number', defaultFlex: 1, textAlign: 'end'}
+  ]
 
+  // For selecting a product on the stock grid
   const [selected, setSelected] = useState(null);
-
   const onSelectionChange = useCallback(({ selected }) => {
     setSelected(selected);
     setLocationData(LoadLocations(selected));
   }, [])
 
-  const locationColumns = [
-    {name:'Location', header:'Location', type: 'string', defaultFlex: 1},
-    {name:'BatchID', header:'Batch', type: 'string', defaultFlex: 1},
-    {name:'Expiry', header:'Expiry', type: 'string', defaultFlex: 1},
-    {name:'Qty', header:'Quantity', type: 'number', defaultFlex: 1, textAlign: 'end'}
-  ]
+  
 
-  //Store reference to grid for exporting PDF/CSV
+  //Store reference to grids for exporting PDF/CSV
   const [gridRef_stock, setGridRef_stock] = useState(null);
   const [gridRef_locations, setGridRef_locations] = useState(null);
 
-  //Allows button to be pressed when some tasks are selected
+  //Allows button to be pressed when a product is selected
   let buttonIsDisabled = true;
   if(selected===null) {
-    //console.log(selected);
     buttonIsDisabled = true;
   } else {
     buttonIsDisabled = false;
   }
-  //----------//
   
   return(
     <>
@@ -95,6 +94,7 @@ function Stock() {
               onChange={e=> {
                 setSearchString(e.target.value);
                 setLocationData([]);
+                //setSelected(null);
               }}
             />
           </div>
@@ -209,7 +209,5 @@ function Stock() {
     
   )
 }
-
-
 
 export default Stock;  

@@ -5,7 +5,8 @@ import './Login.css';
 
 import Footer from './../Footer.jsx'
 
-import HQicon from './HQicon.ico'
+import HQicon from '../Logos/HQicon.ico'
+//import PDFLogo from '../Logos/PDFLogo.png'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -37,8 +38,6 @@ export default function Login({ setToken }) {
     
     if(token.token!=='q>)*8n[TfhTyZAW'){
         alert('Invalid Username/Password');
-        setUserName('');
-        setPassword('');
     } else{
         setToken(token);
     }
@@ -47,12 +46,17 @@ export default function Login({ setToken }) {
   }
   
   // Use Below to render logo conditionaly based on the current domain  -  eg: nhl.hqsoftware.com will render nhl.ico
-  //const domain= window.location.hostname;
+  const domain= window.location.hostname;
+  console.log(window.location.hostname);
+  let currentLogo = null;
+  if(domain==='localhost' | domain ==='nhl.hqvps.ie') {
+    currentLogo = HQicon;
+  }
   return(
     <>
     
     
-    <div className="login-logo"><img src={HQicon} alt="logo" /></div>
+    <div className="login-logo"><img src={currentLogo} alt="logo" /></div>
     <div className="login-wrapper">
       <h2>WMS Portal - Log In</h2>
       <Form>

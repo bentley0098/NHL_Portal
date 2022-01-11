@@ -10,6 +10,8 @@ function Navigation(props) {
   const tokenString = sessionStorage.getItem('token');
   const userToken = JSON.parse(tokenString);
   const Username = userToken.username;
+  //const UserID = userToken.userId;
+  
 
   const logout = () => {
     sessionStorage.removeItem('token');
