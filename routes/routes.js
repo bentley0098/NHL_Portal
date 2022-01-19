@@ -74,6 +74,26 @@ const router = app => {
         }
     })
 
+    app.get('/returnStkMovements/:product', async (req, res) => {
+        let queryString = "WEB_STOCKHISTORY ";
+
+        if(req.params.product!=='EMPTY_SEARCH_STRING'){
+            queryString= queryString + "@Filter= '" + req.params.product + "' ";
+        }
+        
+        try {
+            const pool = await poolPromise
+            const result = await pool.request()
+
+            .query(queryString)  
+
+            res.json(result.recordset)
+        } catch (err) {
+            res.status(500)
+            res.send(err.message)
+        }
+    })
+
 }
 module.exports = router;
 

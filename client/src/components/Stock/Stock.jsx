@@ -23,6 +23,11 @@ const LoadLocations = (selected) => {
     .then(data => data.json())
 } 
 
+const LoadStkHistory = (selected) => {
+  return fetch('/returnStkMovements/' + selected)
+    .then(data => data.json())
+} 
+
 // Stock Page function
 function Stock() {
   //----- GET CURRENT USER -----//
@@ -33,6 +38,7 @@ function Stock() {
 
   const [dataSource, setDataSource] = useState([]);
   const [locationData, setLocationData] = useState([]);
+  const [stkHistory, setStkHistory] = useState([]);
   const [searchString, setSearchString] = useState("");
   
   // Sets datasource on lpoad and when searchString changes
@@ -43,6 +49,10 @@ function Stock() {
   // Styles and setup for grids
   const gridStyle = {
     height: '83vh', 
+    margin: 10
+  }
+  const gridStyle2 = {
+    height: '41vh', 
     margin: 10
   }
   const columns = [
@@ -57,12 +67,20 @@ function Stock() {
       {name:'Expiry', header:'Expiry', type: 'string', defaultFlex: 1},
       {name:'Qty', header:'Quantity', type: 'number', defaultFlex: 1, textAlign: 'end'}
   ]
+  const stkHistoryColumns = [
+    {name:'Type', header:'Movement Type', type: 'string', defaultFlex: 1},
+    {name:'OrderNum', header:'Order', type: 'string', defaultFlex: 1},
+    {name:'Location', header:'Location', type: 'string', defaultFlex: 1},
+    {name:'Qty', header:'Quantity', type: 'number', defaultFlex: 1, textAlign: 'end'},
+    {name:'Date', header:'Date', type: 'string', defaultFlex: 1}
+]
 
   // For selecting a product on the stock grid
   const [selected, setSelected] = useState(null);
   const onSelectionChange = useCallback(({ selected }) => {
     setSelected(selected);
     setLocationData(LoadLocations(selected));
+    setStkHistory(LoadStkHistory(selected));
   }, [])
 
   
@@ -94,6 +112,7 @@ function Stock() {
               onChange={e=> {
                 setSearchString(e.target.value);
                 setLocationData([]);
+                setStkHistory([]);
                 //setSelected(null);
               }}
             />
@@ -193,15 +212,27 @@ function Stock() {
             handle={setGridRef_stock}
             	/>
           </div>
-          <div className="location-grid">
-            <ReactDataGrid
-              idProperty="Location"
-              columns={locationColumns}
-              dataSource={locationData}
-              style={gridStyle}
-              handle={setGridRef_locations}
-            />
+          <div className="product-view">
+            <div className="location-grid">
+              <ReactDataGrid
+                idProperty="Location"
+                columns={locationColumns}
+                dataSource={locationData}
+                style={gridStyle2}
+                handle={setGridRef_locations}
+              />
+            </div>
+            <div className="stkHistory-grid">
+              <ReactDataGrid
+                idProperty="ID"
+                columns={stkHistoryColumns}
+                dataSource={stkHistory}
+                style={gridStyle2}
+                //handle={setGridRef_locations}
+              />
+            </div>
           </div>
+          
         </div>
       </div>
       

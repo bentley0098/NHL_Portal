@@ -13,8 +13,9 @@
     flex:1;
     flex-direction: row;
     width:100vw;
+    height:100vh;
     justify-content: space-around;
-    
+    overflow: hidden;
 }
 
 body{
@@ -25,8 +26,20 @@ body{
     flex-grow: 5;
 }
 
+.product-view {
+    flex-grow:3;
+    
+    flex-direction: column;
+    height: 100vh;
+    justify-content: flex-start;
+}
+
 .location-grid{
-    flex-grow: 3;
+    flex:1;
+}
+
+.stkHistory-grid {
+    flex:1;
 }
 
 .filter {

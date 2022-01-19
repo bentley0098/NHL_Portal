@@ -7,7 +7,7 @@ function Footer() {
       <footer className="grid-bg-colour fixed-bottom" style={{paddingTop: 10}}>
         <div className="container">
           <p className="m-0 text-center text-white">
-            Copyright &copy; HQ Software 2021, v0.05
+            Copyright &copy; HQ Software 2021, v0.06
           </p>
         </div>
       </footer>
