@@ -43,6 +43,7 @@ export function  exportPDF_stock(gridData, customer) {
   //var p1Index = [];
   
   //console.log(gridData.current.data);
+
   var bodyData = [];
     bodyData= [[
       gridData.current.data[0].Product, 
@@ -186,6 +187,100 @@ doc.autoTable({
 })
 
 var docName = 'WMS_Locations_' + product +'.pdf';
+
+//let titleDate = moment(new Date()).format("DDMMYYYY"); 
+
+doc.save(docName)
+}
+
+export const exportCSV_history = (gridRef, product) => {
+  const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+
+  const ws = XLSX.utils.json_to_sheet(gridRef.current.data);
+  const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+  const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([excelBuffer], {type: fileType});
+
+  downloadBlob_history(blob, product);
+};
+
+
+const downloadBlob_history = (blob, product) => {
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'hqWMS_Movements_'+ product +'.xlsx');
+  link.style.position = 'absolute';
+  link.style.visibility = 'hidden';
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  document.body.removeChild(link);
+};
+
+
+export function exportPDF_history(gridData, product) {
+  //console.log(gridData.current.data)
+
+var doc = new jsPDF('landscape', 'pt');
+
+var bodyData = [];
+  bodyData= [[
+    gridData.current.data[0].Type, 
+    gridData.current.data[0].OrderNum,
+    gridData.current.data[0].Location,
+    gridData.current.data[0].Qty,
+    gridData.current.data[0].Date
+  ]];
+
+var rowData = [];
+for(let i=1; i<gridData.current.data.length; i++){
+    rowData = [
+      gridData.current.data[i].Type, 
+      gridData.current.data[i].OrderNum,
+      gridData.current.data[i].Location,
+      gridData.current.data[i].Qty,
+      gridData.current.data[i].Date
+    ];
+  
+  bodyData.push(rowData);
+
+}
+
+let formatDate = moment(new Date()).format("Do MMMM YYYY"); 
+
+let headerText = " WMS Stock History - " + product + " - " + formatDate;
+
+let header=[];
+header= ['Type', 'Order', 'Location', 'Quantity', 'Date']
+
+
+doc.autoTable({
+  styles: { fontSize: 8 },
+  theme: 'grid',
+  headStyles: {fillColor: [55, 55, 55]},
+  head: [header],
+  body: bodyData,
+  didDrawPage: function (data) {
+    // Header
+    doc.setFontSize(18)
+    doc.setTextColor(40)
+    if (PDFLogo) {
+      doc.addImage(PDFLogo, 'ico', 20, 20, 46.5, 48, PDFLogo, 'FAST', 0)
+    }
+    doc.text(headerText, data.settings.margin.left + 50, 50)
+
+    doc.setFontSize(8)
+
+   
+  },
+  margin: { top: 80 }
+})
+
+var docName = 'hqWMS_Movements_' + product +'.pdf';
 
 //let titleDate = moment(new Date()).format("DDMMYYYY"); 
 

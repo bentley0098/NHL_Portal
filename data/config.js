@@ -6,7 +6,7 @@ var config = {
   password: 'zebra',
   server: '83.70.203.107',
   database: 'HQWMS-NHL',
-  port: 2020,
+  port: 2022,
   options: {
       encrypt: true,
       trustServerCertificate: true

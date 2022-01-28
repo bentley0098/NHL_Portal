@@ -28,18 +28,10 @@ body{
 
 .product-view {
     flex-grow:3;
-    
+    align-items: flex-end;
     flex-direction: column;
     height: 100vh;
     justify-content: flex-start;
-}
-
-.location-grid{
-    flex:1;
-}
-
-.stkHistory-grid {
-    flex:1;
 }
 
 .filter {
@@ -68,4 +60,18 @@ body{
 .locations_exports {
     position:absolute;
     right:5px;
+}
+
+.location-grid{
+    flex:1;
+}
+
+.history_exports{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.stkHistory-grid {
+    flex:1;
 }

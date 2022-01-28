@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 // Function to export grid to excel
-import { exportCSV_stock, exportPDF_stock, exportCSV_locations, exportPDF_locations } from '../excelExport.js'
+import { exportCSV_stock, exportPDF_stock, exportCSV_locations, exportPDF_locations, exportCSV_history, exportPDF_history } from '../excelExport.js'
 import {RiFileExcel2Line} from 'react-icons/ri'
 import {ImFilePdf} from 'react-icons/im'
 
@@ -48,11 +48,11 @@ function Stock() {
 
   // Styles and setup for grids
   const gridStyle = {
-    height: '83vh', 
+    minHeight: '83vh', 
     margin: 10
   }
   const gridStyle2 = {
-    height: '41vh', 
+    minHeight: '35vh',
     margin: 10
   }
   const columns = [
@@ -88,6 +88,7 @@ function Stock() {
   //Store reference to grids for exporting PDF/CSV
   const [gridRef_stock, setGridRef_stock] = useState(null);
   const [gridRef_locations, setGridRef_locations] = useState(null);
+  const [gridRef_history, setGridRef_history] = useState(null);
 
   //Allows button to be pressed when a product is selected
   let buttonIsDisabled = true;
@@ -122,7 +123,7 @@ function Stock() {
           <OverlayTrigger key='CSVEXPORT' placement='bottom'
                   overlay={
                     <Tooltip id='tooltip-excel'>
-                      Export to Excel
+                      Products to Excel
                     </Tooltip>
                   }
                 >
@@ -140,7 +141,7 @@ function Stock() {
           <OverlayTrigger key='PDFEXPORT' placement='bottom'
             overlay={
               <Tooltip id='tooltip-pdf'>
-                Export to PDF
+                Products to PDF
               </Tooltip>
             } 
           >
@@ -162,7 +163,7 @@ function Stock() {
             <OverlayTrigger key='CSVEXPORT' placement='bottom'
                   overlay={
                     <Tooltip id='tooltip-excel'>
-                      Export to Excel
+                      Locations to Excel
                     </Tooltip>
                   }
                 >
@@ -181,7 +182,7 @@ function Stock() {
           <OverlayTrigger key='PDFEXPORT' placement='bottom'
             overlay={
               <Tooltip id='tooltip-pdf'>
-                Export to PDF
+                Locations to PDF
               </Tooltip>
             } 
           >
@@ -222,13 +223,51 @@ function Stock() {
                 handle={setGridRef_locations}
               />
             </div>
+            <div className="history_exports">
+            {/* Export to Excel (History Grid) */}
+            <OverlayTrigger key='CSVEXPORT_hist' placement='bottom'
+                  overlay={
+                    <Tooltip id='tooltip-excel-hist'>
+                      Movement History to Excel
+                    </Tooltip>
+                  }
+                >
+            <Button variant="light" style={{margin:'5px', marginTop:'0px', border: '1px solid black'}}
+            	onClick={ () => {
+                const gridData = gridRef_history;
+                exportCSV_history(gridData, selected);
+              }}
+              disabled={buttonIsDisabled}
+            >
+            <RiFileExcel2Line />
+            </Button>
+          </OverlayTrigger>
+          {/* Export to PDF (History Grid) */}
+          <OverlayTrigger key='PDFEXPORT_hist' placement='bottom'
+            overlay={
+              <Tooltip id='tooltip-pdf-hist'>
+                Movement History to PDF
+              </Tooltip>
+            } 
+          >
+            <Button variant="light" style={{margin:'5px', marginTop:'0px', border: '1px solid black'}}
+            	onClick={ () => {
+                const gridData = gridRef_history;
+                exportPDF_history(gridData, selected);
+              }}
+              disabled={buttonIsDisabled}
+            >
+              <ImFilePdf />
+            </Button>    
+          </OverlayTrigger>
+          </div>
             <div className="stkHistory-grid">
               <ReactDataGrid
                 idProperty="ID"
                 columns={stkHistoryColumns}
                 dataSource={stkHistory}
                 style={gridStyle2}
-                //handle={setGridRef_locations}
+                handle={setGridRef_history}
               />
             </div>
           </div>
